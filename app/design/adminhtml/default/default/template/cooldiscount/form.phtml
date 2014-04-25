@@ -1,0 +1,26 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: svatoslavzilicev
+ * Date: 05.04.14
+ * Time: 0:26
+ */
+$id = Mage::app()->getRequest()->getParam('id');
+$discount = '';
+$discountModel = Mage::getModel('td_cooldiscount/discount')->loadDiscount($id);
+if ($discountModel){
+    $discount = $discountModel->getDiscount();
+}
+
+$accumulative = Mage::getModel("td_cooldiscount/accumulative")->loadByCustomerId($id);
+if ($accumulative){
+    $acc = $accumulative->getOrdersSumm();
+}
+?>
+<div class="input-field">
+    <label for="custom_field"><?php echo $this->__('Discount Amount') ?></label>
+    <input type="text" class="input-text" name="cooldiscount" id="custom_field" value="<?php echo $discount; ?>" />
+</div>
+<div class="accumulative">
+    <div><span><?php echo $this->__('Customer has accumulative: ') ?></span><?php echo $acc?></div>
+</div>
